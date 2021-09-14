@@ -36,6 +36,13 @@ AFRAME.registerComponent("pinnable", {
       }
 
       if (isMine) {
+        if (
+          this.el.components["animation__pin-start"]?.animationIsPlaying ||
+          this.el.components["animation__pin-end"]?.animationIsPlaying
+        ) {
+          return;
+        }
+
         this.el.removeAttribute("animation__pin-start");
         this.el.removeAttribute("animation__pin-end");
         const currentScale = this.el.object3D.scale;
