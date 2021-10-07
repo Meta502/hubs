@@ -93,7 +93,6 @@ import { TweetModalContainer } from "./room/TweetModalContainer";
 import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
-import Interface from "../cf-react-components/Interface";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -1543,12 +1542,13 @@ function UIRootHooksWrapper(props) {
   );
 
   return (
-    <ChatContextProvider messageDispatch={props.messageDispatch}>
-      <ObjectListProvider scene={props.scene}>
-        <Interface />
-        <UIRoot breakpoint={breakpoint} {...props} />
-      </ObjectListProvider>
-    </ChatContextProvider>
+    <>
+      <ChatContextProvider messageDispatch={props.messageDispatch}>
+        <ObjectListProvider scene={props.scene}>
+          <UIRoot breakpoint={breakpoint} {...props} />
+        </ObjectListProvider>
+      </ChatContextProvider>
+    </>
   );
 }
 

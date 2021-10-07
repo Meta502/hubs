@@ -8,6 +8,7 @@ import "./utils/debug-log";
 import configs from "./utils/configs";
 import "./utils/theme";
 import "@babel/polyfill";
+import Interface from "./cf-react-components/Interface";
 
 console.log(
   `App version: ${
@@ -329,35 +330,44 @@ function mountUI(props = {}) {
   const forcedVREntryType = qsVREntryType;
 
   ReactDOM.render(
-    <WrappedIntlProvider>
-      <ThemeProvider store={store}>
-        <Router history={history}>
-          <Route
-            render={routeProps =>
-              props.showOAuthScreen ? (
-                <OAuthScreenContainer oauthInfo={props.oauthInfo} />
-              ) : props.roomUnavailableReason ? (
-                <ExitedRoomScreenContainer reason={props.roomUnavailableReason} />
-              ) : (
-                <UIRoot
-                  {...{
-                    scene,
-                    isBotMode,
-                    disableAutoExitOnIdle,
-                    forcedVREntryType,
-                    store,
-                    mediaSearchStore,
-                    ...props,
-                    ...routeProps
-                  }}
-                />
-              )
-            }
-          />
-        </Router>
-      </ThemeProvider>
-    </WrappedIntlProvider>,
-    document.getElementById("ui-root")
+    <>
+      <div id="ui-root">
+        <WrappedIntlProvider>
+          <ThemeProvider store={store}>
+            <Router history={history}>
+              <Route
+                render={routeProps =>
+                  props.showOAuthScreen ? (
+                    <OAuthScreenContainer oauthInfo={props.oauthInfo} />
+                  ) : props.roomUnavailableReason ? (
+                    <ExitedRoomScreenContainer reason={props.roomUnavailableReason} />
+                  ) : (
+                    <>
+                      <UIRoot
+                        {...{
+                          scene,
+                          isBotMode,
+                          disableAutoExitOnIdle,
+                          forcedVREntryType,
+                          store,
+                          mediaSearchStore,
+                          ...props,
+                          ...routeProps
+                        }}
+                      />
+                    </>
+                  )
+                }
+              />
+            </Router>
+          </ThemeProvider>
+        </WrappedIntlProvider>
+      </div>
+      <div id="compfest-ui-root" style={{ position: "absolute", zIndex: 10 }}>
+        <Interface scene={scene} />
+      </div>
+    </>,
+    document.getElementById("wrapper-root")
   );
 }
 
