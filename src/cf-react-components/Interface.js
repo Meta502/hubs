@@ -9,14 +9,14 @@ const Button = ({ src, onClick, last }) => {
         color: "black",
         width: "3.5rem",
         height: "3.5rem",
-        borderRadius: "0.5rem",
+        borderRadius: "0.75rem",
         outline: "none",
         border: "none",
         backgroundColor: "#ccc",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginRight: !last ? "0.5rem" : "0rem"
+        marginRight: !last ? "1rem" : "0rem"
       }}
       onClick={onClick}
     >
@@ -134,22 +134,33 @@ const Interface = () => {
         </div>
         <div
           style={{
-            backgroundColor: "white",
-            bottom: "0.4rem",
             position: "absolute",
-            height: "5rem",
-            left: "37.5vw",
-            borderRadius: "0.75rem",
+            height: "100%",
+            width: "100%",
             display: "flex",
+            alignItems: "flex-end",
             justifyContent: "center",
-            alignItems: "center",
-            padding: "0rem 1rem"
+            pointerEvents: "none"
           }}
         >
-          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
-          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
-          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
-          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" last />
+          <div
+            style={{
+              backgroundColor: "white",
+              height: "5rem",
+              borderRadius: "0.75rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "0rem 1rem",
+              pointerEvents: "all",
+              marginBottom: "0.4rem"
+            }}
+          >
+            <Button src="https://ardizza.tech/cf-test/leaderboard.png" />
+            <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
+            <Button src="https://ardizza.tech/cf-test/chat.png" />
+            <Button src="https://ardizza.tech/cf-test/menu.png" last />
+          </div>
         </div>
       </>
     )

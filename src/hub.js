@@ -333,7 +333,7 @@ const InterfaceWrapper = ({ props, forcedVREntryType, scene, disableAutoExitOnId
   const [visible, setVisible] = React.useState(false);
   return (
     <VisibilityContext.Provider value={{ visible, setVisible }}>
-      <div id="compfest-ui-root" style={{ position: "absolute", zIndex: 10 }}>
+      <div id="compfest-ui-root">
         <Interface />
       </div>
       <div id="ui-root">
