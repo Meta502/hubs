@@ -334,7 +334,7 @@ const InterfaceWrapper = ({ props, forcedVREntryType, scene, disableAutoExitOnId
   return (
     <VisibilityContext.Provider value={{ visible, setVisible }}>
       <div id="compfest-ui-root">
-        <Interface />
+        <Interface scene={scene} />
       </div>
       <div id="ui-root">
         <WrappedIntlProvider>
