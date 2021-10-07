@@ -18,12 +18,60 @@ const Interface = () => {
           y: position.y,
           z: position.z
         });
+        console.log("x: " + position.x);
+        console.log("y: " + position.y);
       }, 25);
 
       return () => clearInterval(interval);
     },
     [playerInfo]
   );
+
+  useEffect(() => {
+    const canvas = document.getElementById("testCanvas");
+    const img = new Image();
+    const ctx = canvas.getContext("2d");
+
+    const draw = (x, y) => {
+      ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2);
+      ctx.fillStyle = "cyan";
+      ctx.fillRect(-x + canvas.width / 2 - 4, -y + canvas.height / 2 - 4, 8, 8);
+    };
+
+    const redraw = (x, y) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      ctx.fillRect(-5000, -5000, canvas.width + 10000, canvas.height + 10000);
+      draw(x, y);
+    };
+
+    const rotate = () => {
+      ctx.translate(canvas.width * 0.5, canvas.height * 0.5); //translate to center of shape
+      ctx.translate(-canvas.width * 0.5, -canvas.height * 0.5);
+    };
+
+    const update = () => {
+      const position = playerInfo[0]?.el.getAttribute("position");
+      const x = -position.x * 2.47 + 255;
+      const y = -position.z * 2.47 - 160;
+
+      ctx.save();
+      ctx.resetTransform();
+
+      ctx.translate(x, y);
+      rotate();
+      redraw(x, y);
+
+      ctx.restore();
+    };
+
+    img.src = "https://17bc-103-119-62-30.ap.ngrok.io/Map.svg";
+    img.onload = () => {
+      ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2);
+      update();
+    };
+    setInterval(update, 50);
+  }, []);
 
   return (
     <div
@@ -39,6 +87,12 @@ const Interface = () => {
       }}
     >
       <div style={{ marginBottom: "2rem" }}>
+        <canvas
+          id="testCanvas"
+          width="256"
+          height="256"
+          style={{ width: "100%", marginBottom: "0.5rem", borderRadius: "2rem" }}
+        />
         <h4 style={{ marginBottom: "0.5rem" }}>Active Boosts</h4>
         <ul>
           <li style={{ lineHeight: "1.5" }}>
@@ -62,12 +116,6 @@ const Interface = () => {
             Complete every booth challenge <b>(6/9)</b>
           </li>
         </ul>
-      </div>
-      <div style={{ marginBottom: "2rem" }}>
-        <h4 style={{ marginBottom: "0.5rem" }}>Coordinates:</h4>
-        <p>x: {position.x.toFixed(2)}</p>
-        <p>y: {position.y.toFixed(2)}</p>
-        <p>z: {position.z.toFixed(2)}</p>
       </div>
     </div>
   );
