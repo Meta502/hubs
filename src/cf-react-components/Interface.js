@@ -2,6 +2,29 @@
 import React, { useEffect } from "react";
 import { VisibilityContext } from "../hub";
 
+const Button = ({ src, onClick, last }) => {
+  return (
+    <button
+      style={{
+        color: "black",
+        width: "3.5rem",
+        height: "3.5rem",
+        borderRadius: "0.5rem",
+        outline: "none",
+        border: "none",
+        backgroundColor: "#ccc",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: !last ? "0.5rem" : "0rem"
+      }}
+      onClick={onClick}
+    >
+      <img src={src} />
+    </button>
+  );
+};
+
 const Interface = () => {
   const playerInfo = window.APP.componentRegistry["player-info"];
   const { visible } = React.useContext(VisibilityContext);
@@ -46,7 +69,7 @@ const Interface = () => {
           ctx.restore();
         };
 
-        img.src = "https://c018-103-119-62-49.ap.ngrok.io/Map.svg";
+        img.src = "https://ardizza.tech/cf-test/Map.svg";
         img.onload = () => {
           ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2);
           update();
@@ -59,52 +82,76 @@ const Interface = () => {
 
   return (
     visible && (
-      <div
-        style={{
-          background: "white",
-          opacity: "1",
-          width: "16rem",
-          borderTopRightRadius: "1rem",
-          borderBottomRightRadius: "1rem",
-          borderBottomLeftRadius: "1rem",
-          color: "black",
-          padding: "1.5rem",
-          display: "absolute"
-        }}
-      >
-        <div style={{ marginBottom: "2rem" }}>
-          <canvas
-            id="testCanvas"
-            width="256"
-            height="256"
-            style={{ width: "100%", marginBottom: "2rem", borderRadius: "0.5rem", outline: "lightgray 1px solid" }}
-          />
-          <h4 style={{ marginBottom: "0.5rem" }}>Active Boosts</h4>
-          <ul>
-            <li style={{ lineHeight: "1.5" }}>
-              XP Boost <b>(4hrs)</b>
-            </li>
-          </ul>
+      <>
+        <div
+          style={{
+            background: "white",
+            opacity: "1",
+            width: "14rem",
+            borderTopRightRadius: "1rem",
+            borderBottomRightRadius: "1rem",
+            borderBottomLeftRadius: "1rem",
+            color: "black",
+            padding: "1rem",
+            display: "absolute",
+            userSelect: "none",
+            pointerEvents: "none",
+            position: "absolute",
+            zIndex: 10
+          }}
+        >
+          <div style={{ marginBottom: "2rem" }}>
+            <canvas
+              id="testCanvas"
+              width="256"
+              height="256"
+              style={{ width: "100%", marginBottom: "2rem", borderRadius: "0.5rem", outline: "lightgray 1px solid" }}
+            />
+            <h5 style={{ marginBottom: "0.5rem" }}>Active Boosts</h5>
+            <ul>
+              <li style={{ lineHeight: "1.5", fontSize: "0.8rem" }}>
+                XP Boost <b>(4hrs)</b>
+              </li>
+            </ul>
+          </div>
+          <div style={{ marginBottom: "2rem" }}>
+            <h5 style={{ marginBottom: "0.5rem" }}>Main Quests</h5>
+            <ul>
+              <li style={{ lineHeight: "1.5", fontSize: "0.8rem" }}>
+                Complete all Navi challenges <b>(1/3)</b>
+              </li>
+            </ul>
+          </div>
+          <div style={{ marginBottom: "2rem" }}>
+            <h5 style={{ marginBottom: "0.5rem" }}>Side Quests</h5>
+            <ul>
+              <li style={{ lineHeight: "1.5", fontSize: "0.8rem" }}>Find and defuse the bomb</li>
+              <li style={{ lineHeight: "1.5", fontSize: "0.8rem" }}>
+                Complete every booth challenge <b>(6/9)</b>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div style={{ marginBottom: "2rem" }}>
-          <h4 style={{ marginBottom: "0.5rem" }}>Main Quests</h4>
-          <ul>
-            <li style={{ lineHeight: "1.5" }}>
-              Complete all Navi challenges <b>(1/3)</b>
-            </li>
-          </ul>
+        <div
+          style={{
+            backgroundColor: "white",
+            bottom: "0.4rem",
+            position: "absolute",
+            height: "5rem",
+            left: "37.5vw",
+            borderRadius: "0.75rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0rem 1rem"
+          }}
+        >
+          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
+          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
+          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" />
+          <Button src="https://ardizza.tech/cf-test/mic_off_24px.png" last />
         </div>
-        <div style={{ marginBottom: "2rem" }}>
-          <h4 style={{ marginBottom: "0.5rem" }}>Side Quests</h4>
-          <ul>
-            <li style={{ lineHeight: "1.5" }}>Find and defuse the bomb</li>
-            <li style={{ lineHeight: "1.5" }}>
-              Complete every booth challenge <b>(6/9)</b>
-            </li>
-          </ul>
-          <button onClick={() => console.log("TEST")}>Test Butotn</button>
-        </div>
-      </div>
+      </>
     )
   );
 };
