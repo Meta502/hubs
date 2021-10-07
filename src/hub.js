@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   getCurrentHubId,
   updateVRHudPresenceCount,
@@ -323,14 +324,18 @@ window.APP.history = history;
 
 const qsVREntryType = qs.get("vr_entry_type");
 
-function mountUI(props = {}) {
-  const scene = document.querySelector("a-scene");
-  const disableAutoExitOnIdle =
-    qsTruthy("allow_idle") || (process.env.NODE_ENV === "development" && !qs.get("idle_timeout"));
-  const forcedVREntryType = qsVREntryType;
+export const VisibilityContext = React.createContext({
+  visible: false,
+  setVisible: () => undefined
+});
 
-  ReactDOM.render(
-    <>
+const InterfaceWrapper = ({ props, forcedVREntryType, scene, disableAutoExitOnIdle }) => {
+  const [visible, setVisible] = React.useState(false);
+  return (
+    <VisibilityContext.Provider value={{ visible, setVisible }}>
+      <div id="compfest-ui-root" style={{ position: "absolute", zIndex: 10 }}>
+        <Interface />
+      </div>
       <div id="ui-root">
         <WrappedIntlProvider>
           <ThemeProvider store={store}>
@@ -362,11 +367,24 @@ function mountUI(props = {}) {
             </Router>
           </ThemeProvider>
         </WrappedIntlProvider>
-      </div>
-      <div id="compfest-ui-root" style={{ position: "absolute", zIndex: 10 }}>
-        <Interface scene={scene} />
-      </div>
-    </>,
+      </div>{" "}
+    </VisibilityContext.Provider>
+  );
+};
+
+function mountUI(props = {}) {
+  const scene = document.querySelector("a-scene");
+  const disableAutoExitOnIdle =
+    qsTruthy("allow_idle") || (process.env.NODE_ENV === "development" && !qs.get("idle_timeout"));
+  const forcedVREntryType = qsVREntryType;
+
+  ReactDOM.render(
+    <InterfaceWrapper
+      props={props}
+      forcedVREntryType={forcedVREntryType}
+      scene={scene}
+      disableAutoExitOnIdle={disableAutoExitOnIdle}
+    />,
     document.getElementById("wrapper-root")
   );
 }

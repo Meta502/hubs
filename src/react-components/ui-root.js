@@ -94,6 +94,8 @@ import { TipContainer, FullscreenTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
 
+import { VisibilityContext } from "../hub";
+
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
 const IN_ROOM_MODAL_ROUTER_PATHS = ["/media"];
@@ -445,6 +447,7 @@ class UIRoot extends Component {
 
   onLoadingFinished = () => {
     console.log("UI root loading has finished");
+    this.props.setVisible(true);
     this.setState({ noMoreLoadingUpdates: true });
     this.props.scene.emit("loading_finished");
 
@@ -1518,6 +1521,7 @@ class UIRoot extends Component {
 function UIRootHooksWrapper(props) {
   useAccessibleOutlineStyle();
   const breakpoint = useCssBreakpoints();
+  const { setVisible } = React.useContext(VisibilityContext);
 
   useEffect(
     () => {
@@ -1545,7 +1549,7 @@ function UIRootHooksWrapper(props) {
     <>
       <ChatContextProvider messageDispatch={props.messageDispatch}>
         <ObjectListProvider scene={props.scene}>
-          <UIRoot breakpoint={breakpoint} {...props} />
+          <UIRoot breakpoint={breakpoint} setVisible={setVisible} {...props} />
         </ObjectListProvider>
       </ChatContextProvider>
     </>
@@ -1556,6 +1560,10 @@ UIRootHooksWrapper.propTypes = {
   scene: PropTypes.object.isRequired,
   messageDispatch: PropTypes.object,
   store: PropTypes.object.isRequired
+};
+
+UIRoot.propTypes = {
+  setVisible: PropTypes.func.isRequired
 };
 
 export default UIRootHooksWrapper;
